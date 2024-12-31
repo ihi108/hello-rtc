@@ -17,6 +17,7 @@ func init() {
 
 func main() {
 	router := gin.Default()
+	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
@@ -25,7 +26,7 @@ func main() {
 	})
 
 	router.GET("/apps", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "apps.tmpl", gin.H {
+		c.HTML(http.StatusOK, "apps.tmpl", gin.H{
 			"title": "Landing Page",
 		})
 	})
