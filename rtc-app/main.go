@@ -20,43 +20,43 @@ func main() {
 	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+		c.HTML(http.StatusOK, "index.html", gin.H{
 			"title": "Main website",
 		})
 	})
 
 	router.GET("/apps", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "apps.tmpl", gin.H{
+		c.HTML(http.StatusOK, "apps.html", gin.H{
 			"title": "Landing Page",
 		})
 	})
 
 	router.GET("/meet", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "meet.tmpl", gin.H{
+		c.HTML(http.StatusOK, "meet.html", gin.H{
 			"title": "Meetings",
 		})
 	})
 
 	router.GET("/msgs", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "messages.tmpl", gin.H{
+		c.HTML(http.StatusOK, "messages.html", gin.H{
 			"title": "Messages",
 		})
 	})
 
 	router.GET("/call", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "call.tmpl", gin.H{
+		c.HTML(http.StatusOK, "call.html", gin.H{
 			"title": "Make a Call",
 		})
 	})
 
 	router.GET("/stream", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "stream.tmpl", gin.H{
+		c.HTML(http.StatusOK, "stream.html", gin.H{
 			"title": "Start a stream",
 		})
 	})
 
 	router.GET("/records", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "records.tmpl", gin.H{
+		c.HTML(http.StatusOK, "records.html", gin.H{
 			"title": "View recordings",
 		})
 	})
