@@ -76,7 +76,7 @@
                 <h1>Video call and have a meeting with literally anyone.</h1>
                 <p>Connect, collaborate and share insights with helloRTC</p>
                 <form class="create-or-join" id="meet-form">
-                    <button>New meeting</button>
+                    <button id="meet-form-btn">New meeting</button>
                     <div class="with-link">
                         <input type="text" placeholder="Enter a code or link" name="input-link" id="input-link">
                         <button disabled id="join-btn">Join</button>
@@ -98,5 +98,15 @@
         </section>
     </main>
     <script src="./static/js/apps.js"></script>
+    <script>
+
+        const meet_form_btn = document.getElementById('meet-form-btn')
+        meet_form_btn.onclick = function(e) {
+            const form = e.target.closest('form')
+            form.action = "/setmeet"
+            form.method = "get"
+            form.submit()
+        } 
+    </script>
 </body>
 </html>
