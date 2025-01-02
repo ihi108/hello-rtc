@@ -14,6 +14,7 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
 type User struct {
@@ -140,10 +141,21 @@ func main() {
 		})
 	})
 
-	router.GET("/meet", func(c *gin.Context) {
+	router.GET("/meet/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		fmt.Println("ID", id)
 		c.HTML(http.StatusOK, "meet.html", gin.H{
-			"title": "Meetings",
+			"id":    id,
+			"title": "Meeting",
 		})
+	})
+
+	router.GET("/setmeet", func(c *gin.Context) {
+		id, err := gonanoid.New()
+		if err != nil {
+			log.Fatal(err)
+		}
+		c.Redirect(http.StatusFound, "/meet/"+id)
 	})
 
 	router.GET("/msgs", func(c *gin.Context) {
