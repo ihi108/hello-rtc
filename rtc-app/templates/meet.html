@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{.title}}</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js" ></script>
-
+  <script>
+    const id = "{{.id}}"
+    console.log(id)
+  </script>
 </head>
 <body>
-  <h1> {{.title}}
+  <h1> {{.title}}/{{.id}}</h1>
   <script type="module" src="/static/js/meet.js"></script>
 </body>
 </html>
