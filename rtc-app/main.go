@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"reflect"
 	"strings"
 
 	"github.com/gin-contrib/sessions"
@@ -53,7 +54,7 @@ func main() {
 	store := cookie.NewStore(secret)
 	// store.Options(sessions.Options{MaxAge: 60 * 60 * 24}) // expire in a day
 	store.Options(sessions.Options{
-		MaxAge:   30,
+		MaxAge:   60 * 60,
 		HttpOnly: true,
 		// Secure:   true,
 	}) // expire in a day
@@ -62,9 +63,15 @@ func main() {
 	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Main website",
-		})
+		session := sessions.Default(c)
+		user := session.Get("user")
+		if reflect.DeepEqual(user, nil) {
+			c.HTML(http.StatusOK, "index.html", gin.H{
+				"title": "Main website",
+			})
+		} else {
+			c.Redirect(http.StatusFound, "/apps")
+		}
 	})
 
 	router.GET("/login", func(c *gin.Context) {
