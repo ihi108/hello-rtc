@@ -1,5 +1,19 @@
 <html>
   <h1>
-    {{ .title }}
+    Login
   </h1>
+
+  <form action="/login" method="post">
+    <div class="u-name">
+      <label for="username">
+        Username: <input type="text" name="username" id="username">
+      </label>
+    </div>
+    <div class="u-password">
+      <label for="password">
+        Password: <input type="password" name="password" id="password">
+      </label>
+    </div>
+    <button>Submit</button>
+  </form>
 </html>
