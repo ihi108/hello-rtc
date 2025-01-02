@@ -1,22 +1,64 @@
 package main
 
 import (
+	"encoding/gob"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
+type User struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+var DB []User
+
 func init() {
 	err := godotenv.Load()
+
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	gob.Register(User{}) // register the User type
+
+	// get data from db.json
+	file, err := os.ReadFile("db.json")
+	if err != nil {
+		log.Fatal("Failed database access")
+	}
+	err = json.Unmarshal(file, &DB)
+	if err != nil {
+		log.Fatal(err)
+		log.Fatal("Failed to load DB")
+	}
+
 }
+
+var secret = []byte("secret")
 
 func main() {
 	router := gin.Default()
+
+	// Setup the cookie store for session management
+	store := cookie.NewStore(secret)
+	// store.Options(sessions.Options{MaxAge: 60 * 60 * 24}) // expire in a day
+	store.Options(sessions.Options{
+		MaxAge:   30,
+		HttpOnly: true,
+		// Secure:   true,
+	}) // expire in a day
+	router.Use(sessions.Sessions("session-token", store))
+
 	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
@@ -25,9 +67,69 @@ func main() {
 		})
 	})
 
+	router.GET("/login", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "login.html", gin.H{
+			"title": "Login Page",
+		})
+	})
+
+	router.POST("/login", func(c *gin.Context) {
+		session := sessions.Default(c)
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		var user User
+		fmt.Println(username, password)
+
+		// Validate form input
+		if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
+			return
+		}
+
+		for _, userData := range DB {
+			if userData.Username == username && userData.Password == password {
+				user = userData
+				fmt.Println(user)
+				break
+			}
+		}
+
+		if user.Username == username && user.Password == password {
+
+			// save the username in the session with the userData(username & password)
+			session.Set("user", user)
+			if err := session.Save(); err != nil {
+				c.HTML(http.StatusInternalServerError, "login.html", gin.H{
+					"error": "Failed to save session reload page and Try again.",
+				})
+				fmt.Println(err)
+				return
+			}
+
+			c.Redirect(http.StatusFound, "/apps")
+			return
+		}
+
+		c.HTML(http.StatusUnauthorized, "login.html", gin.H{
+			"error": "incorrect username or password",
+		})
+
+	})
+
+	router.GET("/register", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "register.html", gin.H{
+			"title": "Register Page",
+		})
+	})
+
+	router.Use(AuthRequired)
+
 	router.GET("/apps", func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get("user")
+		fmt.Println(user)
 		c.HTML(http.StatusOK, "apps.html", gin.H{
-			"title": "Landing Page",
+			"User": user,
 		})
 	})
 
@@ -62,4 +164,16 @@ func main() {
 	})
 
 	router.Run()
+}
+
+// AuthRequired is a simple middleware to check the session.
+func AuthRequired(c *gin.Context) {
+	session := sessions.Default(c)
+	user := session.Get("user")
+	if user == nil {
+		c.Redirect(http.StatusFound, "/login")
+		return
+	}
+	// Continue down the chain to handler etc
+	c.Next()
 }
