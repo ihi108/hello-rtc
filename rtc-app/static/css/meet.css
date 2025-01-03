@@ -260,5 +260,41 @@ main {
 /* #leave section */
 
 #leave {
-    display: none;
+    /* display: none; */
+}
+
+#leave .leave-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#leave h2 {
+    font-size: 4rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin-block-end: 3rem;
+}
+
+#leave button {
+    color: #fff;
+    background-color: #74257a;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    padding: .8rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+
+#leave button:hover {
+    background-color: #461649;
+}
+
+.rejoin-return {
+    display: flex;
+    gap: 1rem;
 }
