@@ -36,6 +36,9 @@ main {
     height: 100%;
 }
 
+
+/* #setup section */
+
 #setup .contains {
     padding-inline: .5rem;
 }
@@ -160,12 +163,101 @@ main {
     background-color: #461649;
 }
 
+#setup {
+    display: none;
+}
 
 
+/* #room section */
 
 #room {
     display: none;
+    background-color:#461649;
 }
+
+#room .room-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#room .room-container .top {
+    height: 88%;
+    /* background-color: green; */
+    padding-inline: .5rem;
+}
+
+#room .room-container .bottom {
+    height: 12%;
+    display: flex;
+    justify-content:space-between;
+    padding-inline: .5rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    color: #fff;
+    align-items: center;
+}
+
+#room .room-container .bottom .time-id {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#room .room-container .bottom .controls {
+    display: flex;
+    gap: .8rem;
+}
+
+.ctrls {
+    background-color:#c14fca;
+    border: none;
+    padding: .5rem;
+    border-radius: 100%;
+    transition: .3s;
+}
+
+.ctrls:hover {
+    background-color: #74257a;
+}
+
+.ctrls > svg {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+#room-endcall {
+    background-color: #ff1a1a;
+    border-radius: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding-inline: 1rem;
+}
+
+#room-endcall:hover {
+    background-color: #e60000;
+}
+
+
+#room .room-container .bottom .info {
+    display: flex;
+    gap: .8rem;
+}
+
+.infos {
+    border: none;
+    background-color: transparent;
+}
+
+.infos > svg {
+    width: 1.9rem;
+    height: 1.9rem;
+}
+
+/* #leave section */
 
 #leave {
     display: none;
