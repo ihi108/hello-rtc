@@ -142,11 +142,14 @@ func main() {
 	})
 
 	router.GET("/meet/:id", func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get("user")
 		id := c.Param("id")
 		fmt.Println("ID", id)
 		c.HTML(http.StatusOK, "meet.html", gin.H{
 			"id":    id,
 			"title": "Meeting",
+			"User":  user,
 		})
 	})
 
