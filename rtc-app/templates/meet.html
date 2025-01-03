@@ -5,13 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{.title}}</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js" ></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/meet.css">
   <script>
     const id = "{{.id}}"
     console.log(id)
   </script>
 </head>
 <body>
-  <h1> {{.title}}/{{.id}}</h1>
+  <main>
+    <section id="setup" class="sections">
+      <header class="contains">
+        <nav>
+            <div class="banner">
+              helloRTC
+            </div>
+            <div class="date-info">
+                <span class="time">8:30PM</span>
+                <span> • </span>
+                <span class="date">Tue,Dec 31</span> 
+                <span> • </span>
+                <span class="username">{{.User.Username}}</span>
+                <div class="avatar">
+                    <img src="https://robohash.org/{{.User.Username}}" alt="">
+                </div>
+            </div>
+        </nav>
+      </header>
+      <main class="contain">
+        <section class="left">
+          <div class="setup-local-container">
+            <video autoplay playsinline></video>
+            <div class="setup-local-controls">
+              <button class="setup-mic" id="setup-mic">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/></svg>
+              </button>
+              <button class="setup-camera" id="setup-camera">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l160-160v440L720-420v180q0 33-23.5 56.5T640-160H160Zm0-80h480v-480H160v480Zm0 0v-480 480Z"/></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+        <section class="right">
+          <h2>Ready to join?</h2>
+          <p>See who else is here...</p>
+          <div>
+            <button>Join now</button>
+          </div>
+        </section>
+      </main>
+    </section>
+    <section id="room" class="sections"></section>
+    <section id="leave" class="sections"></section>
+  </main>
   <script type="module" src="/static/js/meet.js"></script>
 </body>
 </html>
