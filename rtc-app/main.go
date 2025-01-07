@@ -147,9 +147,9 @@ func main() {
 		id := c.Param("id")
 		fmt.Println("ID", id)
 		c.HTML(http.StatusOK, "meet.html", gin.H{
-			"id":    id,
-			"title": "Meeting",
-			"User":  user,
+			"id":   id,
+			"User": user,
+			"key":  os.Getenv("API"),
 		})
 	})
 
