@@ -1,5 +1,3 @@
-console.log("Loading... settings");
-
 /* eslint-disable no-unused-vars */
 
 // We use this shared JavaScript file as a simple way to have all demos

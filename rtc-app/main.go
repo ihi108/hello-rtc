@@ -144,21 +144,36 @@ func main() {
 	router.GET("/meet/:id", func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get("user")
+		create := session.Get("create")
 		id := c.Param("id")
 		fmt.Println("ID", id)
 		c.HTML(http.StatusOK, "meet.html", gin.H{
-			"id":   id,
-			"User": user,
-			"key":  os.Getenv("API"),
+			"id":     id,
+			"User":   user,
+			"create": create,
+			"key":    os.Getenv("API"),
 		})
 	})
 
 	router.GET("/setmeet", func(c *gin.Context) {
-		id, err := gonanoid.New()
-		if err != nil {
+		session := sessions.Default(c)
+		// set create; meeting create operation
+		session.Set("create", true)
+
+		// when meeting info is checked from database if user created
+		// the meeting, we add admin property to the session
+
+		if err := session.Save(); err != nil {
 			log.Fatal(err)
+			return
+		} else {
+
+			id, err := gonanoid.New()
+			if err != nil {
+				log.Fatal(err)
+			}
+			c.Redirect(http.StatusFound, "/meet/"+id)
 		}
-		c.Redirect(http.StatusFound, "/meet/"+id)
 	})
 
 	router.GET("/msgs", func(c *gin.Context) {

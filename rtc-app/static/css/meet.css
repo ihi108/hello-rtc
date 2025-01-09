@@ -9,11 +9,17 @@ img {
     border-radius: 100%;
 }
 
+.hide {
+    display: none;
+}
+
 video {
     width: 100%;
     background-image: linear-gradient(to bottom, rgb(51, 46, 46), rgb(100, 100, 94), #1b1616);
     height: 100%;
     border-radius: 5px;
+    object-fit:cover;
+    transform: rotateY(180deg);
 }
 
 body {
@@ -163,15 +169,11 @@ main {
     background-color: #461649;
 }
 
-#setup {
-    display: none;
-}
 
 
 /* #room section */
 
 #room {
-    display: none;
     background-color:#461649;
 }
 
@@ -185,7 +187,6 @@ main {
 
 #room .room-container .top {
     height: 88%;
-    /* background-color: green; */
     padding-inline: .5rem;
 }
 
@@ -258,10 +259,6 @@ main {
 }
 
 /* #leave section */
-
-#leave {
-    /* display: none; */
-}
 
 #leave .leave-container {
     width: 100%;
