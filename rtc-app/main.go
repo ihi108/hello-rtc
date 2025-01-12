@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"fmt"
+	"hash/fnv"
 	"log"
 	"net/http"
 	"os"
@@ -146,12 +147,14 @@ func main() {
 		user := session.Get("user")
 		create := session.Get("create")
 		id := c.Param("id")
+		room := roomId(id)
 		fmt.Println("ID", id)
 		c.HTML(http.StatusOK, "meet.html", gin.H{
 			"id":     id,
 			"User":   user,
 			"create": create,
 			"key":    os.Getenv("API"),
+			"room":   room,
 		})
 	})
 
@@ -213,4 +216,10 @@ func AuthRequired(c *gin.Context) {
 	}
 	// Continue down the chain to handler etc
 	c.Next()
+}
+
+func roomId(s string) uint32 {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return h.Sum32()
 }
