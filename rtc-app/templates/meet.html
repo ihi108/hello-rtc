@@ -12,9 +12,11 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script>
     const meet_id = "{{.id}}"
+    const room = "{{.room}}"
     const metered_api = "{{.key}}"
     const username = "{{.User.Username}}"
     let create = "{{.create}}"
+    create = !!create
   </script>
   <script src="/static/js/settings.js"></script>
 </head>
@@ -55,9 +57,9 @@
         </section>
         <section class="right">
           <h2>Ready to join?</h2>
-          <p>See who else is here...</p>
+          <p id="who-is-here">See who else is here...</p>
           <div>
-            <button>Join now</button>
+            <button id="setup-join">Join now</button>
           </div>
         </section>
       </main>
@@ -66,7 +68,13 @@
 
     <section id="room" class="sections hide">
       <div class="room-container">
-        <div class="top"></div>
+        <div class="top">
+          <div class="videos">
+            <div class="local-video">
+              <video id="local-video" autoplay playsinline></video>
+            </div>
+          </div>
+        </div>
         <div class="bottom">
           <div class="time-id">
             5:05 AM | {{.id}}
