@@ -47,6 +47,66 @@ main {
 
 
 /* #setup section */
+#avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: #74257a;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+}
+#avatar .image {
+    width: 30%;
+    border-radius: 100%;
+    background-color: #fff;
+}
+#avatar .name {
+    font-family: "Poppins", serif;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 450;
+    margin-block-start: .5rem;
+}
+#avatar.hide {
+    display: none;
+}
+#avatar.show {
+    display: block;
+    position: absolute;
+}
+
+.muted > svg {
+    fill: #ff1a1a;
+}
+
+#permission-text {
+    font-family: "Poppins", serif;
+    text-align: center;
+    background-color: #fff;
+    position: absolute;
+  
+
+    z-index: 1;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 5px;
+    top: 50%;
+    left: 1rem;
+    right: 1rem;
+    font-weight: 600;
+    padding: .5rem;
+}
+
+#setup-mic:hover, #setup-camera:hover {
+    background-color: #bbb6b6;
+    cursor: pointer;
+}
 
 #setup .contains {
     padding-inline: .5rem;
@@ -118,6 +178,7 @@ main {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    z-index: 3;
 }
 
 .setup-local-controls button {
