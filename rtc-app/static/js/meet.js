@@ -111,18 +111,18 @@ Janus.init({debug: "all", callback: function() {
                            success: function(response) {
                               let exists = response["exists"]
                               if (exists) {
-                                 Janus.log(`room: ${room}, exists`)
-                                 // roomExists()
+                                 
+                                 roomExists()
                               } else {
                                  Janus.log(`Creating room: ${room}`)
-                                 // roomNotExists()
+                                 roomNotExists()
                               }
                            },
                         });
    
                      } else {
                         Janus.log(`Joining room: ${room}`)
-                        // roomExists()
+                        roomExists()
                      }
    
                         
@@ -250,7 +250,7 @@ Janus.init({debug: "all", callback: function() {
                         Janus.log(stream.getTracks());
                         Janus.log(stream.getVideoTracks());
                         localStream = stream
-                        Janus.attachMediaStream($('#setup-video').get(0), stream);
+                        Janus.attachMediaStream($('#local-video').get(0), stream);
                      }
                      if(videoRoomPlugin.webrtcStuff.pc.iceConnectionState !== "completed" &&
                            videoRoomPlugin.webrtcStuff.pc.iceConnectionState !== "connected") {
@@ -322,103 +322,9 @@ function roomNotExists() {
       publishers: 2,
       bitrate: 128000,
    }
-   console.log("Sending create request...")
    videoRoomPlugin.send({ 
       message: create,
       success: function(response) {
-         console.log("Create response: ", response)
-      }
-   })
-
-   $("#setup-join").on("click", function(event) {
-      Janus.log(`Joining room: ${room}`);
-      
-      let joinAndConfigure = {
-         request: "joinandconfigure",
-         room: Number(room),
-         ptype: "publisher",
-         display: username
-      }
-      
-      videoRoomPlugin.send({ 
-         message: join,
-         jsep: jsep
-      })
-
-      $("#room").removeClass("hide")
-      console.log("Attaching local stram on click")
-      Janus.attachMediaStream($('#local-video').get(0), localStream);
-      $("#setup").addClass("hide")
-   })
-
-
-   // videoRoomPlugin.createOffer({
-   //    tracks: [
-   //       { type: 'audio', capture: true, recv: false },
-   //       { type: 'video', capture: true, recv: false },
-   //       // { type: 'data' },
-   //    ],
-   //    success: function(jsep) {
-   //       // Got our SDP! Send our OFFER to the plugin
-   //       videoRoomPlugin.send({ 
-   //          message: create,
-   //          success: function(respone) {
-   //             console.log(respone)
-   //          },
-   //          jsep: jsep 
-   //       });
-
-   //       
-   //    },
-   //    error: function(error) {
-   //       Janus.debug("Some error", error);
-   //    }
-   // })
-
-   
-}
-
-function roomExists() {
-   videoRoomPlugin.createOffer({
-      tracks: [
-         { type: 'audio', capture: true, recv: false },
-         { type: 'video', capture: true, recv: false },
-         // { type: 'data' },
-      ],
-      success: function(jsep) {
-         // Got our SDP! Send our OFFER to the plugin
-
-         // videoRoomPlugin.handleRemoteJsep({ jsep: jsep });
-
-         let listparticipants = {
-            request: "listparticipants",
-            room: Number(room)
-         }
-
-         videoRoomPlugin.send({
-            message: listparticipants,
-            success: function(response) {
-               const participants = response["participants"]
-               if (participants.length == 0) {
-                  $("#who-is-here").text("no one is here...")
-               } else {
-                  // list a few of the participants
-                  let count = 0
-                  let others = []
-                  for (let participant of participants) {
-                     others.push(participant["display"])
-                     if (count == 5) {
-                        break
-                     }
-                  }
-                  const all = others.join(",") + "..." + ((others.length > 1) ? "are here!" : "is here!")
-                  $("#who-is-here").text(all)
-               }
-            },
-            jsep: jsep
-         })
-
-
          $("#setup-join").on("click", function(event) {
             Janus.log(`Joining room: ${room}`);
             
@@ -428,23 +334,102 @@ function roomExists() {
                ptype: "publisher",
                display: username
             }
-            
-            videoRoomPlugin.send({ 
-               message: joinAndConfigure,
-               error: function(error) {
-                  console.error(error)
+
+            videoRoomPlugin.createOffer({
+               tracks: [
+                  { type: 'audio', capture: constraints.audio, recv: false },
+                  { type: 'video', capture: constraints.video, recv: false },
+                  // { type: 'data' },
+               ],
+               success: function(jsep) {
+                  // Got our SDP! Send our OFFER to the plugin
+                  videoRoomPlugin.send({ 
+                     message: joinAndConfigure,
+                     jsep: jsep 
+                  });
+
+                  
                },
-              jsep: jsep
+               error: function(error) {
+                  Janus.debug("Some error", error);
+               }
             })
             
+          
+      
             $("#room").removeClass("hide")
-            console.log("Attaching local stream on click")
-            Janus.attachMediaStream($('#local-video').get(0), localStream);
             $("#setup").addClass("hide")
          })
-      },
-      error: function(error) {
-         Janus.debug("Some error", error);
       }
+   })
+}
+
+function roomExists() {
+
+   Janus.log(`room: ${room}, exists`)
+
+
+   let listparticipants = {
+      request: "listparticipants",
+      room: Number(room)
+   }
+
+   videoRoomPlugin.send({
+      message: listparticipants,
+      success: function(response) {
+         const participants = response["participants"]
+         if (participants.length == 0) {
+            $("#who-is-here").text("no one is here...")
+         } else {
+            // list a few of the participants
+            let count = 0
+            let others = []
+            for (let participant of participants) {
+               others.push(participant["display"])
+               if (count == 5) {
+                  break
+               }
+            }
+            const all = others.join(",") + "..." + ((others.length > 1) ? "are here!" : "is here!")
+            $("#who-is-here").text(all)
+         }
+
+         $("#setup-join").on("click", function(event) {
+            Janus.log(`Joining room: ${room}`);
+            
+
+            let joinAndConfigure = {
+               request: "joinandconfigure",
+               room: Number(room),
+               ptype: "publisher",
+               display: username
+            }
+   
+            videoRoomPlugin.createOffer({
+               tracks: [
+                  { type: 'audio', capture: constraints.audio, recv: false },
+                  { type: 'video', capture: constraints.video, recv: false },
+                  // { type: 'data' },
+               ],
+               success: function(jsep) {
+                  // Got our SDP! Send our OFFER to the plugin
+                  videoRoomPlugin.send({ 
+                     message: joinAndConfigure,
+                     jsep: jsep 
+                  });
+   
+                  
+               },
+               error: function(error) {
+                  Janus.debug("Some error", error);
+               }
+            })
+          
+      
+            $("#room").removeClass("hide")
+            $("#setup").addClass("hide")
+         })
+
+      },
    })
 }
