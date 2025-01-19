@@ -5,10 +5,14 @@
     },
     {
         "username": "jill",
-        "password": "5678"
+        "password": "1234"
     },
     {
         "username": "ak",
-        "password": "47"
+        "password": "1234"
+    },
+    {
+        "username": "aj",
+        "password": "1234"
     }
 ]
