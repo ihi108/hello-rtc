@@ -801,13 +801,13 @@ function newRemoteFeed(id, display, streams) {
             let stream = new MediaStream([track]);
             remoteFeed.remoteTracks[mid] = stream;
 
-            // Janus.log("Created remote audio stream:", stream);
+            Janus.log("Created remote audio stream:", stream);
 
             $('#remote'+remoteFeed.rfindex).append('<audio class="hide" id="remote' + remoteFeed.rfindex + '-' + mid + '" autoplay playsinline/>');
 
-            // $(`#remote${remoteFeed.rfindex}`).append(`<audio class="hide" id="remote${remoteFeed.rfindex}-${mid}" autoplay playsinline`)
 
-            // Janus.attachMediaStream($('#remote' + remoteFeed.rfindex + '-' + mid).get(0), stream);
+            Janus.attachMediaStream($(`#remote${remoteFeed.rfindex}-${mid}`).get(0), stream);
+
             if(remoteFeed.remoteVideos === 0) {
                // No video, at least for now: show a placeholder
                // if($('#videoremote'+remoteFeed.rfindex + ' .no-video-container').length === 0) {
@@ -822,20 +822,16 @@ function newRemoteFeed(id, display, streams) {
             // New video track: create a stream out of it
             remoteFeed.remoteVideos++;
 
-            // $('#videoremote'+remoteFeed.rfindex + ' .no-video-container').remove();
             let stream = new MediaStream([track]);
             remoteFeed.remoteTracks[mid] = stream;
 
 
-            // Janus.log("Created remote video stream:", stream);
+            Janus.log("Created remote video stream:", stream);
 
             // creates video element and appends to DOM
             console.log("CREATE VIDEO ELEMENT AND APPEND TO DOM")
             $(`#remote${remoteFeed.rfindex}`).removeClass("hide")
             $('#remote'+remoteFeed.rfindex).append('<video id="remote' + remoteFeed.rfindex + '-' + mid + '" autoplay playsinline/>');
-            // $('#videoremote'+remoteFeed.rfindex).append(
-            //    '<span class="badge bg-primary bottom-left m-3 hide" id="curres'+remoteFeed.rfindex+'"></span>' +
-            //    '<span class="badge bg-info bottom-right m-3 hide" id="curbitrate'+remoteFeed.rfindex+'"></span>');
             Janus.attachMediaStream($(`#remote${remoteFeed.rfindex}-${mid}`).get(0), stream);
 
 
@@ -883,11 +879,4 @@ function newRemoteFeed(id, display, streams) {
          // remoteFeed.remoteVideos = 0;
       }
    })
-}
-
-function createViewShell(remoteFeedIndex) {
-   return `
-      <div class="videos" id="remoteview${remoteFeedIndex}">
-      </div>
-   `
 }
