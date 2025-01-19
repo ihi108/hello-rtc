@@ -241,7 +241,7 @@ Janus.init({debug: "all", callback: function() {
                                  Janus.debug("  >> [" + id + "] " + display + ":", streams);
 
                                  console.log("HANDLING REMOTE FEED ON REMOTE JOIN")
-                                 // newRemoteFeed(id, display, streams);
+                                 newRemoteFeed(id, display, streams)
                               }
                            }
                            else if(msg["leaving"]) {
