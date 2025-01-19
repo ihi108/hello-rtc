@@ -1,5 +1,4 @@
 tmp/
 *.swp
 .env
-current_task.txt
 sample/
