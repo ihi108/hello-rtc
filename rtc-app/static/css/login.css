@@ -18,16 +18,15 @@ body {
 }
 
 .container {
-    /* display: flex; */
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: red;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 1px 2px 5px #000;
     background-color: #fff;
-    /* background-color: #74257a; */
     padding: 1rem;
+    min-width: 300px;
 }
 
 button, input {
@@ -66,4 +65,13 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.div {
+    text-align: center;
+}
+
+label {
+    font-size: 1.1rem;
+    font-weight: bold;
 }

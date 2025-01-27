@@ -1,23 +1,40 @@
-<html>
-  <h1>
-    Register
-  </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>helloRTC | Login</title>
+  <link rel="stylesheet" href="/static/css/login.css">
 
-  <form action="/register" method="post">
-    <div class="u-name">
-      <label for="username">
-        Username: <input type="text" name="username" id="username">
-      </label>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>
+      Welcome
+    </h1>
+  
+    <form action="/register" method="post">
+      <div class="u-name form-item">
+        <label for="username">
+          username<br><input type="text" name="username" id="username">
+        </label>
+      </div>
+      <div class="u-password form-item">
+        <label for="password">
+          password<br><input type="password" name="password" id="password">
+        </label>
+      </div>
+      <button>Signup</button>
+    </form>
+    <div class="error">
+      <p>{{.error}}</p>
     </div>
-    <div class="u-password">
-      <label for="password">
-        Password: <input type="password" name="password" id="password">
-      </label>
+    <div class="div">
+      have an account? <a href="/login">Login</a>
     </div>
-    <button>Submit</button>
-  </form>
-  <div class="div">
-    OR
-    <a href="/login">Login</a>
   </div>
+</body>
 </html>
