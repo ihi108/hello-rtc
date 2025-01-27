@@ -61,6 +61,8 @@ h1 {
 
 a {
     text-decoration: none;
+    color: #74257a;
+    font-weight: bold;
 }
 
 a:hover {
@@ -74,4 +76,8 @@ a:hover {
 label {
     font-size: 1.1rem;
     font-weight: bold;
+}
+
+input {
+    font-size: 1.1rem;
 }
