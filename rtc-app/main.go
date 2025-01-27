@@ -125,7 +125,7 @@ func main() {
 
 	})
 
-	router.GET("/register", func(c *gin.Context) {
+	router.GET("/signup", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "register.html", gin.H{
 			"title": "Register Page",
 		})
