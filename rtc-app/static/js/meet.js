@@ -281,7 +281,7 @@ Janus.init({debug: "all", callback: function() {
                               let remoteFeed = null;
 
                               // 2: hard coded value for number of participants
-                              for(let i=1; i<2; i++) {
+                              for(let i=1; i<MAX_ROOM_SIZE; i++) {
                                  if(feeds[i] && feeds[i].rfid == unpublished) {
                                     remoteFeed = feeds[i];
                                     break;
@@ -289,11 +289,6 @@ Janus.init({debug: "all", callback: function() {
                               }
                               if(remoteFeed) {
                                  Janus.debug("Feed " + remoteFeed.rfid + " (" + remoteFeed.rfdisplay + ") has left the room, detaching");
-
-                                 // handle remote unpublish
-                                 console.log("handling remote unpublish")
-                                 // $('#remote'+remoteFeed.rfindex).empty().addClass('hide');
-                                 // $('#videoremote'+remoteFeed.rfindex).empty();
 
                                  feeds[remoteFeed.rfindex] = null;
                                  remoteFeed.detach();
@@ -864,19 +859,9 @@ function newRemoteFeed(id, display, streams) {
          // cleanup actions for the particular subscriber
          Janus.log(" ::: Got a cleanup notification (remote feed " + id + ") :::");
 
-
-         // $('#remotevideo'+remoteFeed.rfindex).remove();
-         // $('#waitingvideo'+remoteFeed.rfindex).remove();
-         // $('#novideo'+remoteFeed.rfindex).remove();
-         // $('#curbitrate'+remoteFeed.rfindex).remove();
-         // $('#curres'+remoteFeed.rfindex).remove();
-         // if(bitrateTimer[remoteFeed.rfindex])
-         //    clearInterval(bitrateTimer[remoteFeed.rfindex]);
-         // bitrateTimer[remoteFeed.rfindex] = null;
-         // remoteFeed.simulcastStarted = false;
-         // $('#simulcast'+remoteFeed.rfindex).remove();
-         // remoteFeed.remoteTracks = {};
-         // remoteFeed.remoteVideos = 0;
+         $(`#remote${remoteFeed.rfindex}`).remove();
+         remoteFeed.remoteTracks = {};
+         remoteFeed.remoteVideos = 0;
       }
    })
 }
