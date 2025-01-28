@@ -78,6 +78,34 @@ Janus.init({debug: "all", callback: function() {
          }
       })
 
+      $("#room-endcall").on("click", function() {
+         const leave = {
+            request: "leave",
+         }
+         const unpublish = {
+            request: "unpublish"
+         }
+
+         // to shutoff the camera
+         videoRoomPlugin.send({
+            message: unpublish,
+         })
+
+
+         videoRoomPlugin.send({
+            message: leave,
+         })
+         for (let remoteFeed of feeds) {
+            if (remoteFeed) {
+               remoteFeed.detach();
+            }
+         }
+
+         $("#room").addClass("hide")
+         $("#leave").removeClass("hide")
+
+      })
+
       // Create session: represents the session with the server
       janus = new Janus({
          server,
@@ -386,6 +414,7 @@ Janus.init({debug: "all", callback: function() {
                         Janus.log(stream.getVideoTracks());
                         localStream = stream
                         Janus.attachMediaStream($('#local-video').get(0), stream);
+                        
                      }
                      if(videoRoomPlugin.webrtcStuff.pc.iceConnectionState !== "completed" &&
                            videoRoomPlugin.webrtcStuff.pc.iceConnectionState !== "connected") {
@@ -489,11 +518,11 @@ function roomNotExists() {
             
           
       
+            for (let track of setupLocalStream.getTracks()) {
+               track.stop()
+            }
             $("#room").removeClass("hide")
             $("#setup").addClass("hide")
-            for (let track of setupLocalStream.getTracks()) {
-               track.enabled = false;
-            }
          })
       }
    })
@@ -566,7 +595,7 @@ function roomExists() {
             $("#room").removeClass("hide")
             $("#setup").addClass("hide")
             for (let track of setupLocalStream.getTracks()) {
-               track.enabled = false;
+               track.stop()
             }
          })
 

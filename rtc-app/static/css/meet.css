@@ -299,6 +299,7 @@ main {
 
 .ctrls:hover {
     background-color: #74257a;
+    cursor: pointer;
 }
 
 .ctrls > svg {
