@@ -1,7 +1,7 @@
 import Janus from 'https://cdn.jsdelivr.net/npm/janus-gateway@1.3.0/+esm'
 
 let janus
-
+const countdown = 30
 const opaqueId = username + meet_id;
 let videoRoomPlugin;
 let localTracks = {}, remoteTracks = {};
@@ -103,6 +103,18 @@ Janus.init({debug: "all", callback: function() {
 
          $("#room").addClass("hide")
          $("#leave").removeClass("hide")
+
+         let count = countdown
+         $("#countdown").text(count);
+         const interval = setInterval(() => {
+            count--
+            $("#countdown").text(count)
+         }, 1000)
+
+         setTimeout(() => {
+            clearInterval(interval)
+            $("#leave-return").trigger("click")
+         }, count * 1000)
 
       })
 

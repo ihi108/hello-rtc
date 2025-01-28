@@ -381,3 +381,15 @@ main {
     display: flex;
     gap: 1rem;
 }
+
+.countdown {
+    font-weight: bold;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+#countdown {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+}
