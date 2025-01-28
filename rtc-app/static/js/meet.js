@@ -106,6 +106,18 @@ Janus.init({debug: "all", callback: function() {
 
       })
 
+      $("#leave-return").on("click", function() {
+         const form = document.createElement("form")
+         form.action = "/"
+         form.classList.add("hide")
+         $("body").append(form)
+         form.submit();
+      })
+
+      $("#leave-rejoin").on("click", function() {
+         window.location.reload();
+      })
+
       // Create session: represents the session with the server
       janus = new Janus({
          server,
@@ -562,7 +574,6 @@ function roomExists() {
 
          $("#setup-join").on("click", function(event) {
             Janus.log(`Joining room: ${room}`);
-            
 
             let joinAndConfigure = {
                request: "joinandconfigure",
@@ -590,7 +601,6 @@ function roomExists() {
                   Janus.debug("Some error", error);
                }
             })
-          
       
             $("#room").removeClass("hide")
             $("#setup").addClass("hide")
