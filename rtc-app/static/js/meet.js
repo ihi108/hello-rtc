@@ -1,5 +1,7 @@
 import Janus from 'https://cdn.jsdelivr.net/npm/janus-gateway@1.3.0/+esm'
 
+console.log("LoggedIn: ", loggedIn)
+
 let janus
 const countdown = 30
 const opaqueId = username + meet_id;
@@ -18,7 +20,12 @@ let setupLocalStream;
 const MAX_ROOM_SIZE = 4
 
 
-
+let permissionsTextElem;
+let setupVideo;
+let setupMic;
+let setupCamera;
+let setupJoin;
+let setup;
 
 Janus.init({debug: "all", callback: function() {
 
@@ -32,13 +39,33 @@ Janus.init({debug: "all", callback: function() {
    navigator.mediaDevices.getUserMedia(constraints)
    .then(stream => {
       setupLocalStream = stream
-      $("#permission-text").remove()
-      $("#setup-video").get(0).srcObject = stream;
-      $("#setup-mic").removeAttr("disabled")
-      $("#setup-camera").removeAttr("disabled")
-      $("#setup-join").removeAttr("disabled")
 
-      $("#setup-mic").on("click", function(e) {
+      if (loggedIn == "true") {
+         permissionsTextElem = $("#permission-text")
+         setupVideo = $("#setup-video").get(0)
+         setupMic = $("#setup-mic")
+         setupCamera = $("#setup-camera")
+         setupJoin = $("#setup-join")
+         setup = $("#setup")
+      } else {
+         permissionsTextElem = $("#nonloginpermission-text")
+         setupVideo = $("#nonloginsetup-video").get(0)
+         setupMic = $("#nonloginsetup-mic")
+         setupCamera = $("#nonloginsetup-camera")
+         setupJoin = $("#nonloginsetup-join")
+         setup = $("#nonloginsetup")
+      }
+
+      permissionsTextElem.remove()
+      setupVideo.srcObject = stream
+      setupMic.removeAttr("disabled")
+      setupCamera.removeAttr("disabled")
+      if (loggedIn == "true") {
+         setupJoin.removeAttr("disabled")
+      }
+      
+
+      setupMic.on("click", function(e) {
          let mute = $(this).data("mute")
 
          if (mute) {
@@ -57,7 +84,7 @@ Janus.init({debug: "all", callback: function() {
          }
       })
       
-      $("#setup-camera").on("click", function() {
+      setupCamera.on("click", function() {
          let mute = $(this).data("mute")
 
          if (mute) {
@@ -128,6 +155,14 @@ Janus.init({debug: "all", callback: function() {
 
       $("#leave-rejoin").on("click", function() {
          window.location.reload();
+      })
+
+      $("#nonlogin-name").on("input", function() {
+         if (this.value.length >= 1) {
+            setupJoin.removeAttr("disabled")
+            setupJoin.removeClass("disabled")
+            username = this.value
+         }
       })
 
       // Create session: represents the session with the server
@@ -567,7 +602,11 @@ function roomExists() {
       success: function(response) {
          const participants = response["participants"]
          if (participants.length == 0) {
-            $("#who-is-here").text("no one is here...")
+            if (loggedIn == "true") {
+               $("#who-is-here").text("no one is here...")
+            } else {
+               $("#nonloginwho-is-here").text("no one is here...")
+            }
          } else {
             // list a few of the participants
             console.log("Participants: ", participants)
@@ -581,10 +620,24 @@ function roomExists() {
                }
             }
             const all = others.join(",") + "..." + ((others.length > 1) ? "are here!" : "is here!")
-            $("#who-is-here").text(all)
+            if (loggedIn == "true") {
+               $("#who-is-here").text(all)
+            } else {
+               $("#nonloginwho-is-here").text(all)
+            }
          }
 
-         $("#setup-join").on("click", function(event) {
+         setupJoin.on("click", function(event) {
+
+            if (loggedIn == "false") {
+               let value = $("#nonlogin-name").val()
+               if (value == 0) {
+                  // TODO: show visual notification to user requesting a username input
+                  console.log("INPUT YOUR NAME")
+                  return
+               }
+            }
+
             Janus.log(`Joining room: ${room}`);
 
             let joinAndConfigure = {
@@ -615,7 +668,7 @@ function roomExists() {
             })
       
             $("#room").removeClass("hide")
-            $("#setup").addClass("hide")
+            setup.addClass("hide")
             for (let track of setupLocalStream.getTracks()) {
                track.stop()
             }

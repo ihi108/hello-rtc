@@ -14,9 +14,9 @@
     const meet_id = "{{.id}}"
     const room = "{{.room}}"
     const metered_api = "{{.key}}"
-    const username = "{{.User.Username}}"
+    let username = "{{.username}}"
     let create = "{{.create}}"
-    const loggedIn = !!"{{.login}}"
+    const loggedIn = "{{.login}}"
     create = !!create
   </script>
   <script src="/static/js/settings.js"></script>
@@ -24,7 +24,7 @@
 <body>
   <main>
 
-    <section id="nonloginsetup" class="sections">
+    <section id="nonloginsetup" class="sections {{ if .login}} hide {{ end }}">
       <header class="contains">
         <nav>
             <div class="banner">
@@ -63,10 +63,11 @@
           </div>
         </section>
         <section class="right">
+
           <h2>What's your name</h2>
           <div class="div">
             <label class="hide" for="nonlogin-name">name</label>
-            <input placeholder="Enter your name here" id="nonlogin-name" type="text">
+            <input required placeholder="Enter your name here" id="nonlogin-name" type="text">
           </div>
           <h2 class="small">Ready to join?</h2>
           <p id="nonloginwho-is-here">See who else is here...</p>
@@ -77,7 +78,7 @@
       </main>
     </section>
 
-    <section id="setup" class="sections hide">
+    <section id="setup" class="sections {{ if not .login}} hide {{ end }}">
       <header class="contains">
         <nav>
             <div class="banner">
@@ -88,9 +89,9 @@
                 <span> • </span>
                 <span class="date">Tue,Dec 31</span> 
                 <span> • </span>
-                <span class="username">{{.User.Username}}</span>
+                <span class="username">{{.username}}</span>
                 <div class="avatar">
-                    <img src="https://robohash.org/{{.User.Username}}" alt="">
+                    <img src="https://robohash.org/{{.username}}" alt="">
                 </div>
             </div>
         </nav>
@@ -100,9 +101,9 @@
           <div class="setup-local-container">
             <div id="avatar" class="hide">
               <div class="image">
-                <img src="https://robohash.org/{{.User.Username}}" alt="">
+                <img src="https://robohash.org/{{.username}}" alt="">
               </div>
-              <p class="name">{{.User.Username}}</p>
+              <p class="name">{{.username}}</p>
             </div>
             <p id="permission-text">You need to enable permissions for this application</p>
             <video id="setup-video" autoplay playsinline></video>

@@ -131,32 +131,36 @@ func main() {
 		})
 	})
 
-	router.Use(AuthRequired)
-
-	router.GET("/apps", func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get("user")
-		fmt.Println(user)
-		c.HTML(http.StatusOK, "apps.html", gin.H{
-			"User": user,
-		})
-	})
-
 	router.GET("/meet/:id", func(c *gin.Context) {
+		var data map[string]interface{}
 		session := sessions.Default(c)
 		user := session.Get("user")
 		create := session.Get("create")
 		id := c.Param("id")
 		room := roomId(id)
 		fmt.Println("ID", id)
-		c.HTML(http.StatusOK, "meet.html", gin.H{
-			"id":     id,
-			"User":   user,
-			"create": create,
-			"key":    os.Getenv("API"),
-			"room":   room,
-		})
+
+		data = make(map[string]interface{})
+		if reflect.DeepEqual(user, nil) {
+			data["id"] = id
+			data["username"] = ""
+			data["create"] = create
+			data["key"] = os.Getenv("API")
+			data["room"] = room
+			data["login"] = false
+		} else {
+			data["id"] = id
+			data["username"] = user.(User).Username
+			data["create"] = create
+			data["key"] = os.Getenv("API")
+			data["room"] = room
+			data["login"] = true
+		}
+
+		c.HTML(http.StatusOK, "meet.html", data)
 	})
+
+	router.Use(AuthRequired)
 
 	router.GET("/setmeet", func(c *gin.Context) {
 		session := sessions.Default(c)
@@ -177,6 +181,15 @@ func main() {
 			}
 			c.Redirect(http.StatusFound, "/meet/"+id)
 		}
+	})
+
+	router.GET("/apps", func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get("user")
+		fmt.Println(user)
+		c.HTML(http.StatusOK, "apps.html", gin.H{
+			"User": user,
+		})
 	})
 
 	router.GET("/msgs", func(c *gin.Context) {
