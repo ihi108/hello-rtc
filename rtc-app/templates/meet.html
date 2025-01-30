@@ -17,6 +17,7 @@
     let username = "{{.username}}"
     let create = "{{.create}}"
     const loggedIn = "{{.login}}"
+    console.log(loggedIn)
     create = !!create
   </script>
   <script src="/static/js/settings.js"></script>
@@ -35,7 +36,7 @@
                 <span> • </span>
                 <span class="date">Tue,Dec 31</span> 
                 <span> • </span>
-                <a class="authlink" href="/login">Login</a>
+                <a class="authlink" href="/login?meet={{.id}}">Login</a>
                 |
                 <a class="authlink" href="/signup">SignUp</a>
             </div>

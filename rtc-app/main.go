@@ -77,6 +77,12 @@ func main() {
 	})
 
 	router.GET("/login", func(c *gin.Context) {
+		session := sessions.Default(c)
+
+		meet_id := c.Query("meet")
+		session.Set("meet_id", meet_id)
+		session.Save()
+
 		c.HTML(http.StatusOK, "login.html", gin.H{
 			"title": "Login Page",
 		})
@@ -86,6 +92,7 @@ func main() {
 		session := sessions.Default(c)
 		username := c.PostForm("username")
 		password := c.PostForm("password")
+		meet_id := session.Get("meet_id")
 		var user User
 		fmt.Println(username, password)
 
@@ -107,15 +114,13 @@ func main() {
 
 			// save the username in the session with the userData(username & password)
 			session.Set("user", user)
-			if err := session.Save(); err != nil {
-				c.HTML(http.StatusInternalServerError, "login.html", gin.H{
-					"error": "Failed to save session reload page and Try again.",
-				})
-				fmt.Println(err)
-				return
-			}
+			session.Save()
 
-			c.Redirect(http.StatusFound, "/apps")
+			if meet_id == nil {
+				c.Redirect(http.StatusFound, "/apps")
+			} else {
+				c.Redirect(http.StatusFound, "/meet/"+meet_id.(string))
+			}
 			return
 		}
 
@@ -134,14 +139,14 @@ func main() {
 	router.GET("/meet/:id", func(c *gin.Context) {
 		var data map[string]interface{}
 		session := sessions.Default(c)
+		session.Delete("meet_id")
 		user := session.Get("user")
 		create := session.Get("create")
 		id := c.Param("id")
 		room := roomId(id)
-		fmt.Println("ID", id)
 
 		data = make(map[string]interface{})
-		if reflect.DeepEqual(user, nil) {
+		if user == nil {
 			data["id"] = id
 			data["username"] = ""
 			data["create"] = create
