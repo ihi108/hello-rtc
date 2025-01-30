@@ -781,6 +781,12 @@ function newRemoteFeed(id, display, streams) {
                remoteMedia.id = `remote${remoteFeed.rfindex}`
                $("#videos").append(remoteMedia)
 
+               const userDisplayname = document.createElement('p')
+               userDisplayname.className = "display-name"
+               userDisplayname.textContent = remoteFeed.rfdisplay
+
+               remoteMedia.append(userDisplayname)
+
             } else if(event === "event") {
                // Check if we got a simulcast-related event from this publisher
                let substream = msg["substream"];

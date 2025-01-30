@@ -339,6 +339,18 @@ main {
 
 .videos {
     flex-basis: 25%;
+    position: relative;
+}
+
+.display-name {
+    position: absolute;
+    bottom: .3rem;
+    left: .3rem;
+    color: #fff;
+    font-size: 1.1rem;
+    font-family: "Poppins", serif;
+    font-weight: bold;
+    z-index: 100;
 }
 
 
