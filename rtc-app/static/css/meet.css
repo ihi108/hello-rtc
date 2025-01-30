@@ -85,7 +85,7 @@ main {
     fill: #ff1a1a;
 }
 
-#permission-text {
+#nonloginpermission-text {
     font-family: "Poppins", serif;
     text-align: center;
     background-color: #fff;
@@ -392,4 +392,220 @@ main {
 #countdown {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
     font-size: 3rem;
+}
+
+
+/* nonlogin setup */
+
+#nonloginavatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: #74257a;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+}
+#nonloginavatar .image {
+    width: 30%;
+    border-radius: 100%;
+    background-color: #fff;
+}
+#nonloginavatar .name {
+    font-family: "Poppins", serif;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 450;
+    margin-block-start: .5rem;
+}
+#nonloginavatar.hide {
+    display: none;
+}
+#nonloginavatar.show {
+    display: block;
+    position: absolute;
+}
+
+.muted > svg {
+    fill: #ff1a1a;
+}
+
+#nonloginpermission-text {
+    font-family: "Poppins", serif;
+    text-align: center;
+    background-color: #fff;
+    position: absolute;
+  
+
+    z-index: 1;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 5px;
+    top: 50%;
+    left: 1rem;
+    right: 1rem;
+    font-weight: 600;
+    padding: .5rem;
+}
+
+#nonloginsetup-mic:hover, #nonloginsetup-camera:hover {
+    background-color: #bbb6b6;
+    cursor: pointer;
+}
+
+#nonloginsetup .contains {
+    padding-inline: .5rem;
+}
+
+#nonloginsetup header {
+    height: 10%;
+    margin-block-start: 1rem;
+}
+
+
+#nonloginsetup header nav {
+    display: flex;
+    align-items: center;
+}
+
+#nonloginsetup header .banner {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: "Poppins", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.5rem;
+    color: #74257a;
+}
+
+
+#nonloginsetup header .date-info {
+    margin-left: auto;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: rgb(95,99,104);
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+#nonloginsetup header .avatar {
+    border-radius: 100%;
+    width: 3rem;
+    height: 3rem;
+    margin-left: auto;
+    border: 2px solid #74257a;
+}
+
+#nonloginsetup main {
+    display: flex;
+}
+
+#nonloginsetup main .left {
+    width: 60%;
+}
+
+
+#nonloginsetup main .left .nonloginsetup-local-container {
+    position: relative;
+    margin-inline: .5rem;
+    margin-top: 1rem;
+    height: 75%;
+}
+
+.nonloginsetup-local-controls {
+    position: absolute;
+    width: 100%;
+    bottom: .8rem;
+    left: 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    z-index: 3;
+}
+
+.nonloginsetup-local-controls button {
+    border: 2px solid #fff;
+    background-color: transparent;
+    padding: .5rem;
+    border-radius: 100%;
+}
+
+.nonloginsetup-local-controls button > svg{
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+
+#nonloginsetup main .right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    padding-block-start: 4rem;
+    padding-inline-start: 4rem;
+}
+
+#nonloginsetup main .right h2 {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    color: #1f1f1f;
+    font-size: 3rem;
+    margin-block-end: 1rem;
+}
+
+#nonloginsetup main .right p {
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #444746;
+    margin-block-end: 1rem;
+}
+
+#nonloginsetup main .right button {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    background-color: #74257a;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+#nonloginsetup main .right button:hover {
+    background-color: #461649;
+}
+
+#nonloginsetup main .right button:disabled {
+    opacity: .5;
+}
+
+#nonloginsetup main .right h2.small {
+    font-size: 2rem;
+    margin-block-start: 1rem;
+}
+
+a.authlink {
+    text-decoration: none;
+    font-weight: bold;
+    color: #74257a;
+}
+
+a.authlink:hover {
+    text-decoration: underline;
+}
+
+#nonlogin-name {
+    width: 80%;
+    padding: .8rem;
+    border: 1px solid black;
+    font-size: 1.2rem;
+    border-radius: 5px;
 }
