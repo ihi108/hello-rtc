@@ -80,8 +80,11 @@ func main() {
 		session := sessions.Default(c)
 
 		meet_id := c.Query("meet")
-		session.Set("meet_id", meet_id)
-		session.Save()
+
+		if meet_id != "" {
+			session.Set("meet_id", meet_id)
+			session.Save()
+		}
 
 		c.HTML(http.StatusOK, "login.html", gin.H{
 			"title": "Login Page",
