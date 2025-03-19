@@ -14,5 +14,6 @@ migratedown:
 	migrate -database postgres://root:password@localhost:5432/hellortc?sslmode=disable -path db/migrations down -all
 sqlc:
 	sqlc generate
-	
-.PHONY: startcontainer stopcontainer createdb dropdb create_migrations migrateup migratedown sqlc
+test:
+	go test -v -cover ./...
+.PHONY: startcontainer stopcontainer createdb dropdb create_migrations migrateup migratedown sqlc test
