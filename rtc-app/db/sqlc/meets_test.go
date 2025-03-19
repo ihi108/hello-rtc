@@ -46,3 +46,23 @@ func TestGetMeet(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, meet2)
 }
+
+func TestListMeets(t *testing.T) {
+	user := RandomUser(t)
+
+	for i := 0; i < 3; i++ {
+		arg := CreateMeetParams{
+			Author:      user.Username,
+			ID:          util.RandomString(10),
+			Title:       sql.NullString{String: util.RandomString(7), Valid: true},
+			Description: sql.NullString{String: util.RandomString(20), Valid: true},
+		}
+
+		testQueries.CreateMeet(context.Background(), arg)
+	}
+	meets, err := testQueries.ListMeets(context.Background())
+	require.NoError(t, err)
+	for _, meet := range meets {
+		require.NotEmpty(t, meet)
+	}
+}
