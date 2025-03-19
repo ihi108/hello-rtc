@@ -22,4 +22,15 @@ func TestCreateUser(t *testing.T) {
 	user, err := testQueries.CreateUser(context.Background(), arg)
 	require.NoError(t, err)
 	require.NotEmpty(t, user)
+	require.Equal(t, arg.Username, user.Username)
+	require.Equal(t, arg.FirstName, user.FirstName)
+	require.Equal(t, arg.LastName, user.LastName)
+	require.Equal(t, arg.Email, user.Email)
+	require.Equal(t, arg.DateOfBirth.Year(), user.DateOfBirth.Year())
+	require.Equal(t, arg.DateOfBirth.Month(), user.DateOfBirth.Month())
+	require.Equal(t, arg.DateOfBirth.Day(), user.DateOfBirth.Day())
+
+	require.NotZero(t, user.ID)
+	require.NotZero(t, user.CreatedAt)
+	require.NotZero(t, user.UpdatedAt)
 }
