@@ -63,3 +63,16 @@ func TestGetUser(t *testing.T) {
 	require.WithinDuration(t, user1.UpdatedAt, user2.UpdatedAt, time.Second)
 	require.WithinDuration(t, user1.PasswordChangedAt, user2.PasswordChangedAt, time.Second)
 }
+
+func TestListUsers(t *testing.T) {
+	for i := 0; i < 5; i++ {
+		RandomUser(t)
+	}
+
+	users, err := testQueries.ListUsers(context.Background())
+	require.NoError(t, err)
+
+	for _, user := range users {
+		require.NotEmpty(t, user)
+	}
+}
