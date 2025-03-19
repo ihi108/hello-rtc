@@ -11,12 +11,15 @@ import (
 )
 
 func RandomUser(t *testing.T) User {
+	password := util.RandomString(8)
+	hashedPassword, err := util.GeneratePasswordHash(password)
+	require.NoError(t, err)
 	arg := CreateUserParams{
 		Username:       util.RandomName(7),
 		FirstName:      util.RandomName(8),
 		LastName:       util.RandomName(6),
 		Email:          util.RandomEmail(),
-		HashedPassword: "secret",
+		HashedPassword: hashedPassword,
 		DateOfBirth:    util.RandomBirthDay(),
 	}
 
@@ -30,6 +33,8 @@ func RandomUser(t *testing.T) User {
 	require.Equal(t, arg.DateOfBirth.Year(), user.DateOfBirth.Year())
 	require.Equal(t, arg.DateOfBirth.Month(), user.DateOfBirth.Month())
 	require.Equal(t, arg.DateOfBirth.Day(), user.DateOfBirth.Day())
+
+	require.NoError(t, util.CheckPassword(password, hashedPassword))
 
 	require.NotZero(t, user.ID)
 	require.NotZero(t, user.CreatedAt)
