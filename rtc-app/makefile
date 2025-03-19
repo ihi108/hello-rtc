@@ -16,4 +16,6 @@ sqlc:
 	sqlc generate
 test:
 	go test -v -cover ./...
+opendb:
+	docker exec -it postgres17 psql -U root hellortc
 .PHONY: startcontainer stopcontainer createdb dropdb create_migrations migrateup migratedown sqlc test
