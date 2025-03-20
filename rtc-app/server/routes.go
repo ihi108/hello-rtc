@@ -27,7 +27,7 @@ type meetsPageResponse struct {
 func (server *Server) rootPage(ctx *gin.Context) {
 	session := sessions.Default(ctx)
 	user := session.Get("user")
-	if user == "" {
+	if user == nil {
 		ctx.HTML(http.StatusOK, "index.html", gin.H{
 			"title": "Main website",
 		})
