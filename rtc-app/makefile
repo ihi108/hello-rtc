@@ -20,4 +20,7 @@ opendb:
 	docker exec -it postgres17 psql -U root hellortc
 server:
 	go run main.go
+startcontainerAndrunapp:
+	make startcontainer; make server
+
 .PHONY: startcontainer stopcontainer createdb dropdb create_migrations migrateup migratedown sqlc test opendb server
