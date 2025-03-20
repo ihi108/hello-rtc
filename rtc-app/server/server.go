@@ -31,10 +31,21 @@ func NewServer(store db.Store) *Server {
 	router.Static("../static", "./static")
 	router.LoadHTMLGlob("../templates/*")
 
-	// TODO: handle all the routes
 	router.GET("/", server.rootPage)
+	router.GET("/login", server.loginPage)
+	router.POST("/login", server.loginUser)
+	router.GET("/signup", server.signupPage)
+	router.POST("/signup", server.signupUser)
+	router.GET("/meet/:id", server.meetPage)
 
-	router.Use(AuthRequired)
+	router.Use(authRequired)
+
+	router.GET("/setmeet", server.createMeet)
+	router.GET("/apps", server.appsPage)
+	router.GET("/msgs", server.msgsPage)
+	router.GET("/call", server.callPage)
+	router.GET("/stream", server.streamsPage)
+	router.GET("/records", server.recordsPage)
 
 	server.router = router
 	return server

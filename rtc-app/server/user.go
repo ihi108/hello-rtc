@@ -1,51 +1,50 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/ihi108/hello-rtc/rtc-app/util"
 )
 
-func (server *Server) login(ctx *gin.Context) {
+type createUserFormRequest struct {
+	Username string `form:"username" binding:"required,alphanum"` // no special characters in username
+	Password string `form:"password" binding:"required,min=6"`
+}
+
+func (server *Server) loginUser(ctx *gin.Context) {
+	var userData createUserFormRequest
+
 	session := sessions.Default(ctx)
-	username := ctx.PostForm("username")
-	password := ctx.PostForm("password")
 	meet_id := session.Get("meet_id")
-	var user User
-	fmt.Println(username, password)
 
-	// Validate form input
-	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
+	if err := ctx.ShouldBind(&userData); err != nil {
+		ctx.HTML(http.StatusUnauthorized, "login.html", errorResponse(err))
 		return
 	}
 
-	for _, userData := range DB {
-		if userData.Username == username && userData.Password == password {
-			user = userData
-			fmt.Println(user)
-			break
-		}
-	}
-
-	if user.Username == username && user.Password == password {
-
-		// save the username in the session with the userData(username & password)
-		session.Set("user", user)
-		session.Save()
-
-		if meet_id == nil {
-			ctx.Redirect(http.StatusFound, "/apps")
-		} else {
-			ctx.Redirect(http.StatusFound, "/meet/"+meet_id.(string))
-		}
+	user, err := server.store.GetUser(ctx, userData.Username)
+	if err != nil {
+		ctx.HTML(http.StatusUnauthorized, "login.html", errorResponse(err))
 		return
 	}
 
-	ctx.HTML(http.StatusUnauthorized, "login.html", gin.H{
-		"error": "incorrect username or password",
-	})
+	if err = util.CheckPassword(userData.Password, user.HashedPassword); err != nil {
+		ctx.HTML(http.StatusUnauthorized, "login.html", errorResponse(err))
+		return
+	}
+
+	// save the username in the session with the userData(username & password)
+	session.Set("user", user)
+	session.Save()
+
+	if meet_id == nil {
+		ctx.Redirect(http.StatusFound, "/apps")
+	} else {
+		ctx.Redirect(http.StatusFound, "/meet/"+meet_id.(string))
+	}
+}
+
+func (server *Server) signupUser(ctx *gin.Context) {
 }
