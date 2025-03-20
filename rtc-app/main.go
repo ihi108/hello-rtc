@@ -7,6 +7,8 @@ import (
 	db "github.com/ihi108/hello-rtc/rtc-app/db/sqlc"
 	"github.com/ihi108/hello-rtc/rtc-app/server"
 	"github.com/ihi108/hello-rtc/rtc-app/util"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
