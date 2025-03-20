@@ -29,7 +29,7 @@ func NewServer(store db.Store) *Server {
 	router.Use(sessions.Sessions("session-token", cookieStore))
 
 	router.Static("../static", "./static")
-	router.LoadHTMLGlob("../templates/*")
+	router.LoadHTMLGlob("./templates/*")
 
 	router.GET("/", server.rootPage)
 	router.GET("/login", server.loginPage)
