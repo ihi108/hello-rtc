@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{.title}}</title>
+  <title>{{.Title}}</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js" ></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="/static/css/meet.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script>
-    const meet_id = "{{.id}}"
-    const room = "{{.room}}"
-    const metered_api = "{{.key}}"
-    let username = "{{.username}}"
-    let create = "{{.create}}"
-    const loggedIn = "{{.login}}"
+    const meet_id = "{{.ID}}"
+    const room = "{{.Room}}"
+    const metered_api = "{{.APIKey}}"
+    let username = "{{.Username}}"
+    let create = "{{.Create}}"
+    const loggedIn = "{{.Login}}"
     console.log(loggedIn)
     create = !!create
   </script>
@@ -25,7 +25,7 @@
 <body>
   <main>
 
-    <section id="nonloginsetup" class="sections {{ if .login}} hide {{ end }}">
+    <section id="nonloginsetup" class="sections {{ if .Login}} hide {{ end }}">
       <header class="contains">
         <nav>
             <div class="banner">
@@ -36,7 +36,7 @@
                 <span> • </span>
                 <span class="date">Tue,Dec 31</span> 
                 <span> • </span>
-                <a class="authlink" href="/login?meet={{.id}}">Login</a>
+                <a class="authlink" href="/Login?meet={{.ID}}">Login</a>
                 |
                 <a class="authlink" href="/signup">SignUp</a>
             </div>
@@ -47,9 +47,9 @@
           <div class="nonloginsetup-local-container">
             <div id="nonloginavatar" class="hide">
               <div class="image">
-                <img src="https://robohash.org/{{.User.Username}}" alt="">
+                <img src="https://robohash.org/{{.Username}}" alt="">
               </div>
-              <p class="name">{{.User.Username}}</p>
+              <p class="name">{{.Username}}</p>
             </div>
             <p id="nonloginpermission-text">You need to enable permissions for this application</p>
             <video id="nonloginsetup-video" autoplay playsinline></video>
@@ -79,7 +79,7 @@
       </main>
     </section>
 
-    <section id="setup" class="sections {{ if not .login}} hide {{ end }}">
+    <section id="setup" class="sections {{ if not .Login}} hide {{ end }}">
       <header class="contains">
         <nav>
             <div class="banner">
@@ -90,9 +90,9 @@
                 <span> • </span>
                 <span class="date">Tue,Dec 31</span> 
                 <span> • </span>
-                <span class="username">{{.username}}</span>
+                <span class="username">{{.Username}}</span>
                 <div class="avatar">
-                    <img src="https://robohash.org/{{.username}}" alt="">
+                    <img src="https://robohash.org/{{.Username}}" alt="">
                 </div>
             </div>
         </nav>
@@ -102,9 +102,9 @@
           <div class="setup-local-container">
             <div id="avatar" class="hide">
               <div class="image">
-                <img src="https://robohash.org/{{.username}}" alt="">
+                <img src="https://robohash.org/{{.Username}}" alt="">
               </div>
-              <p class="name">{{.username}}</p>
+              <p class="name">{{.Username}}</p>
             </div>
             <p id="permission-text">You need to enable permissions for this application</p>
             <video id="setup-video" autoplay playsinline></video>
@@ -142,7 +142,7 @@
         </div>
         <div class="bottom">
           <div class="time-id">
-            5:05 AM | {{.id}}
+            5:05 AM | {{.ID}}
           </div>
           <div class="controls">
             <button class="ctrls" id="room-mic">
