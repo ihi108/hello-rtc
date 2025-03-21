@@ -50,13 +50,13 @@ func (server *Server) loginUser(ctx *gin.Context) {
 }
 
 type createUserFormRequest struct {
-	Username    string    `form:"username"`
-	FirstName   string    `form:"first_name"`
-	LastName    string    `form:"last_name"`
+	Username    string    `form:"username" binding:"required,alphanum"`
+	FirstName   string    `form:"first_name" binding:"required,alphanum"`
+	LastName    string    `form:"last_name" binding:"required,alphanum"`
 	MiddleName  string    `form:"middle_name"`
-	Email       string    `form:"email"`
-	Password    string    `form:"password"`
-	DateOfBirth time.Time `form:"date_of_birth"`
+	Email       string    `form:"email" binding:"required,alphanum"`
+	Password    string    `form:"password" binding:"required,alphanum"`
+	DateOfBirth time.Time `form:"date_of_birth" binding:"required"`
 }
 
 func (server *Server) signupUser(ctx *gin.Context) {
@@ -88,7 +88,7 @@ func (server *Server) signupUser(ctx *gin.Context) {
 
 	user, err := server.store.CreateUser(ctx, arg)
 	if err != nil {
-		ctx.HTML(http.StatusUnauthorized, "login.html", errorResponse(err))
+		ctx.HTML(http.StatusUnauthorized, "register.html", errorResponse(err))
 		return
 	}
 
