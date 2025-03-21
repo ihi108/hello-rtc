@@ -1,6 +1,8 @@
 package server
 
 import (
+	"encoding/gob"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -17,6 +19,9 @@ type Server struct {
 func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
+
+	gob.Register(db.User{})
+	gob.Register(db.Meet{})
 
 	// Setup the cookie store for session management
 	cookieStore := cookie.NewStore([]byte("secret"))
