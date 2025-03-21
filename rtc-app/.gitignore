@@ -2,3 +2,7 @@ tmp/
 *.swp
 .env
 sample/
+
+node_modules/
+package-lock.json
+package.json
