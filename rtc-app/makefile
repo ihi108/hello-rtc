@@ -19,8 +19,13 @@ test:
 opendb:
 	docker exec -it postgres17 psql -U root hellortc
 server:
-	go run main.go
+	air
 startcontainerAndrunapp:
 	make startcontainer; make server
-
+css_register:
+	npx @tailwindcss/cli -i static/css/input-register.css -o static/css/register.css --watch
+css_login:
+	npx @tailwindcss/cli -i static/css/input-login.css -o static/css/login.css --watch
+css:
+	make css_register && make css_login
 .PHONY: startcontainer stopcontainer createdb dropdb create_migrations migrateup migratedown sqlc test opendb server
