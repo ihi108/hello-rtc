@@ -16,6 +16,7 @@ type appsPageResponse struct {
 }
 
 type meetsPageResponse struct {
+	Title    string `json:"title"`
 	ID       string `json:"id"`
 	Username string `json:"username"`
 	Create   bool   `json:"create"`
@@ -60,6 +61,7 @@ func (server *Server) signupPage(ctx *gin.Context) {
 func (server *Server) meetPage(ctx *gin.Context) {
 	var username string
 	var login bool
+	var Create bool
 
 	session := sessions.Default(ctx)
 	session.Delete("meet_id")
@@ -67,6 +69,12 @@ func (server *Server) meetPage(ctx *gin.Context) {
 	create := session.Get("create")
 	id := ctx.Param("id")
 	room := util.RoomId(id)
+
+	if create == nil {
+		Create = false
+	} else {
+		Create = create.(bool)
+	}
 
 	if user == nil {
 		login = false
@@ -77,9 +85,10 @@ func (server *Server) meetPage(ctx *gin.Context) {
 	}
 
 	response := meetsPageResponse{
+		Title:    "helloRTC | meet",
 		ID:       id,
 		Username: username,
-		Create:   create.(bool),
+		Create:   Create,
 		APIKey:   server.store.Key,
 		Room:     room,
 		Login:    login,
@@ -91,6 +100,11 @@ func (server *Server) meetPage(ctx *gin.Context) {
 func (server *Server) appsPage(ctx *gin.Context) {
 	session := sessions.Default(ctx)
 	user := session.Get("user")
+
+	if user == nil {
+		ctx.Redirect(http.StatusFound, "/login")
+		return
+	}
 
 	userData := appsPageResponse{
 		Username: user.(db.User).Username,
